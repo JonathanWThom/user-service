@@ -21,7 +21,7 @@ describe "service" do
     JSON.parse(json_response.body)
   end
 
-  describe "GET on /api/v1/users/:id" do
+  describe "GET on /api/v1/users/:name" do
     before(:each) do
       User.create(
         name: "Jonathan",
@@ -79,6 +79,24 @@ describe "service" do
       expect(attributes["name"]).to eq "Ernie"
       expect(attributes["email"]).to eq "erniethedog@gmail.com"
       expect(attributes["bio"]).to eq "hello this is dog"
+    end
+  end
+
+  describe "PUT on /api/v1/users/:name" do
+    it "should update a user" do
+      User.create(
+        name: "Laura",
+        email: "laura@laura.com",
+        password: "passwordy",
+        bio: "hello this is laura"
+      )
+      put "api/v1/users/Laura", {
+        bio: "Well grounded rubyist"
+      }.to_json
+      expect(last_response.status).to eq 200
+      get "/api/v1/users/Laura"
+      attributes = get_attributes(last_response)
+      expect(attributes["bio"]).to eq "Well grounded rubyist"
     end
   end
 end
