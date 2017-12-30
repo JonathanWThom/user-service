@@ -1,7 +1,6 @@
 source "http://rubygems.org"
 
 # service
-gem "activerecord"
 gem "pg"
 gem "sinatra"
 
@@ -12,3 +11,4 @@ gem "typhoeus"
 # testing
 gem "rspec"
 gem "rack-test"
+gem "sinatra-activerecord"
