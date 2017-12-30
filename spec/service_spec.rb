@@ -17,6 +17,10 @@ describe "service" do
     User.delete_all
   end
 
+  def get_attributes(json_response)
+    JSON.parse(json_response.body)
+  end
+
   describe "GET on /api/v1/users/:id" do
     before(:each) do
       User.create(
@@ -29,35 +33,35 @@ describe "service" do
 
     it "should return a user by name" do
       get "/api/v1/users/Jonathan"
-      last_response.should be_ok
-      attributes = JSON.parse(last_response.body)
-      attributes["name"].should == "Jonathan"
+      expect(last_response.status).to eq 200
+      attributes = get_attributes(last_response)
+      expect(attributes["name"]).to eq "Jonathan"
     end
 
     it "should return a user with an email" do
       get "/api/v1/users/Jonathan"
-      last_response.should be_ok
-      attributes = JSON.parse(last_response.body)
-      attributes["email"].should == "jonathan.thom1990@gmail.com"
+      expect(last_response.status).to eq 200
+      attributes = get_attributes(last_response)
+      expect(attributes["email"]).to eq "jonathan.thom1990@gmail.com"
     end
 
     it "should not return a user's password" do
       get "/api/v1/users/Jonathan"
-      last_response.should be_ok
-      attributes = JSON.parse(last_response.body)
-      attributes.should_not have_key("password")
+      expect(last_response.status).to eq 200
+      attributes = get_attributes(last_response)
+      expect(attributes).to_not have_key(:password)
     end
 
     it "should return a user with a bio" do
       get "/api/v1/users/Jonathan"
-      last_response.should be_ok
-      attributes = JSON.parse(last_response.body)
-      attributes["bio"].should == "I love my dog."
+      expect(last_response.status).to eq 200
+      attributes = get_attributes(last_response)
+      expect(attributes["bio"]).to eq "I love my dog."
     end
 
     it "should return a 404 for a user that doesn't exist" do
       get "/api/v1/users/foo"
-      last_response.status.should == 404
+      expect(last_response.status).to eq 404
     end
   end
 end
