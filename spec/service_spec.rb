@@ -64,4 +64,21 @@ describe "service" do
       expect(last_response.status).to eq 404
     end
   end
+
+  describe "POST on /api/v1/users" do
+    it "should create a user" do
+      post "/api/v1/users", {
+        name: "Ernie",
+        email: "erniethedog@gmail.com",
+        password: "ilovetreats",
+        bio: "hello this is dog"
+      }.to_json
+      expect(last_response.status).to eq 200
+      get "/api/v1/users/Ernie"
+      attributes = get_attributes(last_response)
+      expect(attributes["name"]).to eq "Ernie"
+      expect(attributes["email"]).to eq "erniethedog@gmail.com"
+      expect(attributes["bio"]).to eq "hello this is dog"
+    end
+  end
 end
