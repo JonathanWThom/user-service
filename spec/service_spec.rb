@@ -99,4 +99,19 @@ describe "service" do
       expect(attributes["bio"]).to eq "Well grounded rubyist"
     end
   end
+
+  describe "DELETE on /api/v1/users/:name" do
+    it "should delete a user" do
+      User.create(
+        name: "Kramer",
+        email: "kramerica@industries.com",
+        password: "Who wants to have some fun?",
+        bio: "Do you really want to have fun or are just saying you want to have fun?"
+      )
+      delete "/api/v1/users/Kramer"
+      expect(last_response.status).to eq 200
+      get "api/v1/users/Kramer"
+      expect(last_response.status).to eq 404
+    end
+  end
 end

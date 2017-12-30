@@ -46,3 +46,13 @@ put "/api/v1/users/:name" do
     error 404, {error: "user not found"}.to_json
   end
 end
+
+delete "/api/v1/users/:name" do
+  user = User.find_by_name(params[:name])
+  if user
+    user.destroy
+    user.to_json
+  else
+    error 404, {error: "user not found"}.to_json
+  end
+end
