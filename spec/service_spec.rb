@@ -3,6 +3,7 @@ ENV['SINATRA_ENV'] = 'test'
 require File.dirname(__FILE__) + "/../service"
 require "rspec"
 require "rack/test"
+require "pry"
 
 RSpec.configure do |conf|
   conf.include Rack::Test::Methods
@@ -21,7 +22,7 @@ describe "service" do
     JSON.parse(json_response.body)
   end
 
-  describe "GET on /api/v1/users/:name" do
+  describe "GET on /api/v1/users/:id" do
     before(:each) do
       User.create(
         name: "Jonathan",
@@ -82,7 +83,7 @@ describe "service" do
     end
   end
 
-  describe "PUT on /api/v1/users/:name" do
+  describe "PUT on /api/v1/users/:id" do
     it "should update a user" do
       User.create(
         name: "Laura",
@@ -100,7 +101,7 @@ describe "service" do
     end
   end
 
-  describe "DELETE on /api/v1/users/:name" do
+  describe "DELETE on /api/v1/users/:id" do
     it "should delete a user" do
       User.create(
         name: "Kramer",
@@ -112,6 +113,28 @@ describe "service" do
       expect(last_response.status).to eq 200
       get "api/v1/users/Kramer"
       expect(last_response.status).to eq 404
+    end
+  end
+
+  describe "POST on /api/v1/users/:id/sessions" do
+    before(:all) do
+      User.create(name: "Jerry", password: "cantbehacked")
+    end
+
+    it "should return the user object on valid credentials" do
+      post "/api/v1/users/Jerry/sessions", {
+        password: "cantbehacked"
+      }.to_json
+      expect(last_response.status).to eq 200
+      attributes = get_attributes(last_response)
+      expect(attributes["name"]).to eq("Jerry")
+    end
+
+    it "should fail on invalid credentials" do
+      post "/api/v1/users/Jerry/sessions", {
+        password: "nope"
+      }.to_json
+      expect(last_response.status).to eq 400
     end
   end
 end
