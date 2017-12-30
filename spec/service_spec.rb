@@ -1,9 +1,12 @@
+ENV['SINATRA_ENV'] = 'test'
+
 require File.dirname(__FILE__) + "/../service"
-require "spec"
-require "spec/interop/test"
+require "rspec"
 require "rack/test"
-set :environment, :test
-Test::Unit::TestCase.send :include, Rake::Test::Methods
+
+RSpec.configure do |conf|
+  conf.include Rack::Test::Methods
+end
 
 def app
   Sinatra::Application

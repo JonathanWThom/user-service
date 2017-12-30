@@ -1,12 +1,13 @@
-require "rubygems"
-require "active_record"
-require "yaml"
+require 'rubygems'
+require 'active_record'
+require 'yaml'
+require 'logger'
 
 desc "Load the environment"
 task :environment do
   env = ENV["SINATRA_ENV"] || "development"
   databases = YAML.load_file("config/database.yml")
-  ActiveRecord::Base.establish_connection(datbases[env])
+  ActiveRecord::Base.establish_connection(databases[env])
 end
 
 namespace :db do
