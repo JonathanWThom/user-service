@@ -18,13 +18,14 @@ describe "client" do
   end
 
   it "should create a user" do
-    user = User.create({
-      name: "trotter",
-      email: "no spam",
-      password: "whatev"
-    })
-    expect(user.name).to eq("trotter")
-    expect(user.email).to eq("no spam")
-    expect(Client::User.find_by_name("trotter")).to eq(user)
+    random_name = ('a'..'z').to_a.shuffle[0,8].join
+    random_email = ('a'..'z').to_a.shuffle[0,8].join
+    user = User.create(
+      :name => random_name,
+      :email => random_email,
+      :password => 'whatev')
+    expect(user["name"]).to eq random_name
+    expect(user["email"]).to eq random_email
+    expect(Client::User.find_by_name(random_name)["id"]).to eq user.id
   end
 end
