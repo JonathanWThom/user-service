@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   def to_json
      #super(:except => :password)
-    super(:except => [:password, :created_at, :updated_at])
+    super(:except => [:password])
      #super(:only => [:name, :email, :bio])
   end
 end

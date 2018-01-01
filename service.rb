@@ -1,6 +1,6 @@
 require "active_record"
 require "sinatra"
-require_relative "models/user"
+require_relative "models/user.rb"
 require "pry"
 
 env_index = ARGV.index("-e")
@@ -8,6 +8,16 @@ env_arg = ARGV[env_index + 1] if env_index
 env = env_arg || ENV["SINATRA_ENV"] || "development"
 databases = YAML.load_file("config/database.yml")
 ActiveRecord::Base.establish_connection(databases[env])
+
+if env == "test"
+  puts "starting in test mode"
+  User.destroy_all
+  User.create(
+    name: "Jonathan",
+    email: "jonathan.thom1990@gmail.com",
+    bio: "Well grounded rubyist"
+  )
+end
 
 get "/api/v1/users/:name" do
   user = User.find_by_name(params[:name])
