@@ -1,6 +1,6 @@
-require_relative '../user.rb'
+require_relative '../../client/user.rb'
 
-describe "client" do
+describe "User::Client" do
   before(:each) do
     Client::User.base_uri = "http://localhost:4567"
   end
@@ -47,6 +47,6 @@ describe "client" do
   end
 
   it "should return nil with invalid credentials" do
-    expect(Client::User.login("Jonathan", "wrong")).to eq(nil) 
+    expect(Client::User.login("Jonathan", "wrong")).to eq(nil)
   end
 end
