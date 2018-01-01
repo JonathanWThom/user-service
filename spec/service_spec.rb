@@ -117,22 +117,26 @@ describe "service" do
   end
 
   describe "POST on /api/v1/users/:id/sessions" do
-    before(:all) do
-      User.create(name: "Jerry", password: "cantbehacked")
+    before(:each) do
+      User.create(
+        name: "Dwight",
+        password: "shrute",
+        email: "shrutefarms"
+      )
     end
 
     it "should return the user object on valid credentials" do
-      post "/api/v1/users/Jerry/sessions", {
-        password: "cantbehacked"
+      post '/api/v1/users/Dwight/sessions', {
+        password: "shrute"
       }.to_json
       expect(last_response.status).to eq 200
       attributes = get_attributes(last_response)
-      expect(attributes["name"]).to eq("Jerry")
-    end
+      expect(attributes["name"]).to eq "Dwight"
+     end
 
     it "should fail on invalid credentials" do
-      post "/api/v1/users/Jerry/sessions", {
-        password: "nope"
+      post "/api/v1/users/josh/sessions", {
+        password: "wrong"
       }.to_json
       expect(last_response.status).to eq 400
     end
