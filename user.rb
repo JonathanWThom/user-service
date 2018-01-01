@@ -24,7 +24,19 @@ module Client
         body: attributes.to_json
       )
       if response.code == 200
-        JSON.prase(response.body)
+        JSON.parse(response.body)
+      else
+        raise response.body
+      end
+    end
+
+    def self.update(name, attributes)
+      response = Typhoeus::Request.put(
+        "#{base_uri}/api/v1/users/#{name}",
+        body: attributes.to_json
+      )
+      if response.code == 200
+        JSON.parse(response.body)
       else
         raise response.body
       end

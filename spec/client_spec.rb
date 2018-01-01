@@ -20,12 +20,19 @@ describe "client" do
   it "should create a user" do
     random_name = ('a'..'z').to_a.shuffle[0,8].join
     random_email = ('a'..'z').to_a.shuffle[0,8].join
-    user = User.create(
+    user = Client::User.create(
       :name => random_name,
       :email => random_email,
       :password => 'whatev')
     expect(user["name"]).to eq random_name
     expect(user["email"]).to eq random_email
-    expect(Client::User.find_by_name(random_name)["id"]).to eq user.id
+    expect(Client::User.find_by_name(random_name)).to eq user
+  end
+
+  it "should update a user" do
+    user = Client::User.update("Jonathan", {bio: "Fixing deprecation warnings"})
+    expect(user["name"]).to eq("Jonathan")
+    expect(user["bio"]).to eq("Fixing deprecation warnings")
+    expect(Client::User.find_by_name("Jonathan")).to eq(user)
   end
 end
