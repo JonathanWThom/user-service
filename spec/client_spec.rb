@@ -35,4 +35,9 @@ describe "client" do
     expect(user["bio"]).to eq("Fixing deprecation warnings")
     expect(Client::User.find_by_name("Jonathan")).to eq(user)
   end
+
+  it "should destroy a user" do
+    expect(Client::User.destroy("bryan")).to eq true
+    expect(Client::User.find_by_name("bryan")).to eq(nil)
+  end
 end

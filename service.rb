@@ -17,6 +17,10 @@ if env == "test"
     email: "jonathan.thom1990@gmail.com",
     bio: "Well grounded rubyist"
   )
+  User.create(
+    name: "bryan",
+    email: "no spam"
+  )
 end
 
 get "/api/v1/users/:name" do

@@ -41,5 +41,11 @@ module Client
         raise response.body
       end
     end
+
+    def self.destroy(name)
+      Typhoeus::Request.delete(
+        "#{base_uri}/api/v1/users/#{name}"
+      ).code == 200
+    end
   end
 end
