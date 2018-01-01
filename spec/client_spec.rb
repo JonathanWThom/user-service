@@ -40,4 +40,13 @@ describe "client" do
     expect(Client::User.destroy("bryan")).to eq true
     expect(Client::User.find_by_name("bryan")).to eq(nil)
   end
+
+  it "should verify login credentials" do
+    user = Client::User.login("Jonathan", "strongpass")
+    expect(user["name"]).to eq "Jonathan"
+  end
+
+  it "should return nil with invalid credentials" do
+    expect(Client::User.login("Jonathan", "wrong")).to eq(nil) 
+  end
 end

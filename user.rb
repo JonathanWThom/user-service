@@ -47,5 +47,16 @@ module Client
         "#{base_uri}/api/v1/users/#{name}"
       ).code == 200
     end
+
+    def self.login(name, password)
+      response = Typhoeus::Request.post("#{base_uri}/api/v1/users/#{name}/sessions", :body => {:password => password}.to_json)
+      if response.success? # response.code == 200
+        JSON.parse(response.body)
+      elsif response.code == 400
+        nil
+      else
+        raise response.body
+      end
+    end
   end
 end

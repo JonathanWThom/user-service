@@ -15,7 +15,8 @@ if env == "test"
   User.create(
     name: "Jonathan",
     email: "jonathan.thom1990@gmail.com",
-    bio: "Well grounded rubyist"
+    bio: "Well grounded rubyist",
+    password: "strongpass"
   )
   User.create(
     name: "bryan",
